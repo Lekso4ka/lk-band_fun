@@ -1,15 +1,17 @@
-import { createProductCard } from "./js/functions.js";
+import { 
+	createProductCard,
+	collectForm,
+	addProduct
+} from "./js/functions.js";
 
 const data = localStorage.getItem("band-fruits"); // строка с данными или null
 // const goods = (data && data[0] === "[" && data[1] === "{")  
 // 	? JSON.parse(data) 
 // 	: [];
 
-const goods = (data?.[0] === "[" && data?.[1] === "{")  
+let goods = (data?.[0] === "[" && data?.[1] === "{")  
 	? JSON.parse(data) 
 	: [];
-
-console.log("ololo", goods);
 
 const pr = {
 	name: "Огурец",
@@ -18,6 +20,7 @@ const pr = {
 }
 
 const goodsEl = document.querySelector(".goods");
+const addForm = document.forms.add;
 
 // Ест товары в LS ? отобразить : добавить огурец и отобразить
 
@@ -27,3 +30,23 @@ if (!goods.length) {
 	localStorage.setItem("band-fruits", JSON.stringify(goods));
 }
 goods.forEach(el => createProductCard(el, goodsEl));
+
+
+addForm.addEventListener("submit", e => {
+	e.preventDefault();
+	const body = collectForm(addForm);
+	goods = addProduct(body, goodsEl, goods);
+	addForm.reset();
+});
+
+
+
+
+
+
+
+
+
+
+
+
